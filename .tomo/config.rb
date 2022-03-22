@@ -15,10 +15,12 @@ plugin "bundler"
 plugin "rails"
 plugin "puma"
 plugin 'sidekiq'
+plugin './plugins/asset.rb'
+plugin './plugins/yarn.rb'
 
 host "akob@nft.metalab.my"
 
-set application: "ebaki"
+set application: "metalab"
 set deploy_to: "/var/www/%{application}"
 set git_url: "git@github.com:abigoroth/metalab.git"
 set git_branch: "master"
