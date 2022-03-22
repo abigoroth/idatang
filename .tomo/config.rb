@@ -23,7 +23,7 @@ host "akob@nft.metalab.my"
 set application: "metalab"
 set deploy_to: "/var/www/%{application}"
 set git_url: "git@github.com:abigoroth/metalab.git"
-set git_branch: "master"
+set git_branch: "main"
 set git_exclusions: %w[
   .tomo/
   spec/
