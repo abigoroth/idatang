@@ -15,8 +15,6 @@ plugin "bundler"
 plugin "rails"
 plugin "puma"
 plugin 'sidekiq'
-plugin "./plugins/ebaki.rb"
-plugin './plugins/yarn.rb'
 
 host "akob@nft.metalab.my"
 
