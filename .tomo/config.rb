@@ -1,13 +1,3 @@
-def check_files
-  remote.chdir(paths.release) do
-    remote.run('yarn', 'install', '--check-files')
-  end
-end
-
-def assets_precompile
-  remote.rake("assets:precompile", silent: true, raise_on_error: false)
-end
-
 # rubocop:disable Style/FormatStringToken
 plugin "git"
 plugin "env"
