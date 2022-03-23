@@ -1,8 +1,21 @@
 
+
 .bg-grey
   .mt-2.grid.grid-cols-1.gap-y-10.gap-x-6.sm:grid-cols-2.lg:grid-cols-4.xl:gap-x-8
     - if session[:eth_address]
       - if !@nfts.empty?
+        .group.relative
+          .w-full.min-h-80.bg-gray-700.aspect-w-1.aspect-h-1.rounded-md.overflow-hidden.lg:h-80.lg:aspect-none
+            .divide-y.divide-dashed.divide-gray-500
+              div.pt-4.pb-4
+                .text-center TOTAL
+                .text-center.text-5xl.font-extrabold.text-indigo-600 #{@nfts.length}
+              div.pt-4.pb-4
+                .text-center EPIC
+                .text-center.text-5xl.font-extrabold.text-indigo-600 #{@nfts.select{|x| x["collection"] =~ /epic/}.length }
+              div.pt-4.pb-4
+                .text-center SUPER RARE
+                .text-center.text-5xl.font-extrabold.text-indigo-600 #{@nfts.select{|x| x["collection"] =~ /SuperRare/}.length }
         - @nfts.each do |nft|
           .group.relative
             .w-full.min-h-80.bg-gray-200.aspect-w-1.aspect-h-1.rounded-md.overflow-hidden.lg:h-80.lg:aspect-none
