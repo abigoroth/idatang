@@ -1,68 +1,44 @@
-- if session[:user_id]
-  | user id : #{session[:user_id]}
-  br
-  | eth_address : #{session[:eth_address]}
-  br
-= form_tag "/sessions", class: "new_session" do
-  = text_field_tag :eth_message, "", readonly: true, class: "eth_message"
-  br
-  = text_field_tag :eth_address, "", readonly: true, class: "eth_address"
-  br
-  = text_field_tag :eth_signature, "", readonly: true, class: "eth_signature"
-  br
-<button class="eth_connect">Login with Ethereum</button>
 
-javascript:
-  async function getUuidByAccount(account) {
-    console.log("account: " + account)
-    const response = await fetch("/api/v1/users/" + account);
-    const nonceJson = await response.json();
-    if (!nonceJson) return null;
-    const uuid = nonceJson[0].eth_nonce;
-    return uuid;
-  }
+.bg-grey
+  .mt-2.grid.grid-cols-1.gap-y-10.gap-x-6.sm:grid-cols-2.lg:grid-cols-4.xl:gap-x-8
+    - if session[:eth_address]
+      - if !@nfts.empty?
+        - @nfts.each do |nft|
+          .group.relative
+            .w-full.min-h-80.bg-gray-200.aspect-w-1.aspect-h-1.rounded-md.overflow-hidden.lg:h-80.lg:aspect-none
+              - if nft["mimeType"] =~ /video/
+                video class="w-full h-full object-center object-cover lg:w-full lg:h-full" autoplay="true" muted="true" loop="true"
+                  source src="#{nft["contentUrl"]}" type="video/mp4" autoplay="true"
+                  | Your browser does not support the video tag.
+              - else
+                img.w-full.h-full.object-center.object-cover.lg:w-full.lg:h-full alt="#{nft["name"]}" src="#{nft["contentUrl"]}" /
+            .mt-4.flex.justify-between
+              div
+                h3.text-sm.text-white
+                  a href="#" style="pointer-events: none;"
+                    span.absolute.inset-0 aria-hidden="true"
+                    | #{nft['name']}
+                p.mt-1.text-sm.text-white-500 #{nft["collection"]}
+              p.text-sm.font-medium.white-900 #{nft["priceUsd"]}
+      - else
+        h1 There is no NFT for this collaborator
+    - else
+      - if @artist_profile
+        .hero.min-h-screen style=("background-image: url(#{@artist_profile["bannerUrl"]});")
+          .hero-overlay.bg-opacity-60
+          .hero-content.text-center.text-neutral-content
+            .max-w-md
+              img class="mask mask-squircle" src="#{@artist_profile["profileImage"]}"
+              h1.mb-5.text-5xl.font-bold Welcome to #{@artist_profile["name"]} partner
+              p.mb-5 Get more benefit with our collaborated partner
+      - else
+        | Select collaborator
+        ul.divide-y.divide-gray-200 role="list"
+          li.py-4
+            = link_to "Bad Ape", collab_path("0xFCD1077415bfe07A9750fc95F821731b96A4d483")
+          li.py-4
+            = link_to "Rich Cats Nation", collab_path("0x4c43E3AA5BC37783b73376f14CF749cB762e09E1")
 
-  // request ethereum wallet access and approved accounts[]
-  async function requestAccounts() {
-    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    return accounts;
-  }
 
-  // request ethereum signature for message from account
-  async function personalSign(account, message) {
-    const signature = await ethereum.request({ method: 'personal_sign', params: [ message, account ] });
-    return signature;
-  }
 
-  // the button to connect to an ethereum wallet
-  const buttonEthConnect = document.querySelector('button.eth_connect');
-  // the read-only eth fields, we process them automatically
-  const formInputEthMessage = document.querySelector('input.eth_message');
-  const formInputEthAddress = document.querySelector('input.eth_address');
-  const formInputEthSignature = document.querySelector('input.eth_signature');
-  // get the new session form for submission later
-  const formNewSession = document.querySelector('form.new_session');
-  // only proceed with ethereum context available
-  if (typeof window.ethereum !== 'undefined') {
-    buttonEthConnect.addEventListener('click', async () => {
-      // request accounts from ethereum provider
-      const accounts = await requestAccounts();
-      console.log("accounts :")
-      console.log(accounts)
-      const etherbase = accounts[0];
-      // sign a message with current time and nonce from database
-      const nonce = await getUuidByAccount(etherbase);
-      console.log("nonce: " + nonce)
-      if (nonce) {
-        const customTitle = "Ethereum on Rails";
-        const requestTime = new Date().getTime();
-        const message = customTitle + "," + requestTime + "," + nonce;
-        const signature = await personalSign(etherbase, message);
-        // populate and submit form
-        formInputEthMessage.value = message;
-        formInputEthAddress.value = etherbase;
-        formInputEthSignature.value = signature;
-        formNewSession.submit();
-      }
-    });
-  }
+

@@ -31,16 +31,26 @@ class SessionsController < ApplicationController
             if user_address.downcase.eql? signature_address.to_s.downcase
               # if this is true, the user is cryptographically authenticated!
               session[:user_id] = user.id
-              session[:eth_address] = user.eth_address
+              session[:eth_address] = params[:eth_address]
+              puts "params[:eth_address] #{params[:eth_address]} \nsession[:eth_address] #{session[:eth_address]}"
               # rotate the random nonce to prevent signature spoofing
               user.eth_nonce = SecureRandom.uuid
               user.save
               # send the logged in user back home
-              redirect_to root_path, notice: "Logged in successfully!"
+              if session[:current_collab]
+                redirect_to collab_path(session[:current_collab])
+              else
+                redirect_to root_path, notice: "Logged in successfully!"
+              end
             end
           end
         end
       end
     end
+  end
+
+  def destroy
+    session.delete(:eth_address)
+    redirect_to collab_path(session[:current_collab])
   end
 end

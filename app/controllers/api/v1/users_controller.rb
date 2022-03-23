@@ -16,7 +16,7 @@ class Api::V1::UsersController < ApplicationController
       response = [eth_nonce: user.eth_nonce]
     else
       address = params[:id].downcase
-      user = ::User.new(eth_address: address, password: address, email: "#{address}@metalab.my", eth_nonce: 1234)
+      user = ::User.new(eth_address: address, email: "#{address}@metalab.my", eth_nonce: 1234)
       user.save
       response = [eth_nonce: 1234]
     end
