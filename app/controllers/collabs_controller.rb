@@ -6,9 +6,12 @@ class CollabsController < ApplicationController
       if session[:eth_address]
         @nfts = []
         (1..100).each do |x|
-          response = HTTParty.get("https://api.pentas.io/user/#{session[:eth_address]}/nft/collected?page=#{x}&sorting=latest")
+          if params[:debug] == "true"
+            response = HTTParty.get("https://api.pentas.io/user/0x440217fb13c1814F7aE170A5fb3eCf6B7FeeB014/nft/collected?page=#{x}&sorting=latest")
+          else
+            response = HTTParty.get("https://api.pentas.io/user/#{session[:eth_address]}/nft/collected?page=#{x}&sorting=latest")
+          end
           # response = HTTParty.get("https://api.pentas.io/user/#{session[:eth_address]}/nft/collected?page=#{x}&sorting=latest") if ENV['RAILS_ENV'] == 'production'
-          # response = HTTParty.get("https://api.pentas.io/user/0x440217fb13c1814F7aE170A5fb3eCf6B7FeeB014/nft/collected?page=#{x}&sorting=latest") if ENV['RAILS_ENV'] == 'development'
           tmp = JSON.parse(response.body)
           tmp = tmp.select{|x| x["minterDetails"]["address"] == params[:id]}
           @nfts << tmp
