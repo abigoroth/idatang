@@ -1,2 +1,4 @@
 web: bin/rails server -p 3030 -b 0.0.0.0
-css: bin/rails tailwindcss:watch
+js: yarn build --sourcemap --watch
+tailwind: yarn build:tailwind --watch
+css: yarn build:css --watch

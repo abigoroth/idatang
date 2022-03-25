@@ -46,7 +46,7 @@
                 path d="M34.5825451,33.4769886 L38.3146092,33.4322291 C38.8602707,33.4256848 39.3079219,33.8627257 39.3144662,34.4083873 C39.3145136,34.4123369 39.3145372,34.4162868 39.3145372,34.4202367 L39.3145372,34.432158 C39.3145372,34.9797651 38.8740974,35.425519 38.3265296,35.4320861 L34.5944655,35.4768456 C34.048804,35.4833899 33.6011528,35.046349 33.5946085,34.5006874 C33.5945611,34.4967378 33.5945375,34.4927879 33.5945375,34.488838 L33.5945375,34.4769167 C33.5945375,33.9293096 34.0349773,33.4835557 34.5825451,33.4769886 Z" fill="currentColor" transform="translate(36.454537, 34.454537) rotate(-315.000000) translate(-36.454537, -34.454537) "
                 circle cx="27.5" cy="27.5" r="7.5" stroke="currentColor" stroke-width="2"
           span.tab.tab-account.block.text-xs Login
-= form_tag "/sessions", class: "new_session hidden" do
+= form_tag "/sessions", class: "new_session hidden", method: :post do
   = text_field_tag :eth_message, "", readonly: true, class: "eth_message"
   br
   = text_field_tag :eth_address, "", readonly: true, class: "eth_address"
@@ -84,7 +84,7 @@ javascript:
   // get the new session form for submission later
   const formNewSession = document.querySelector('form.new_session');
   // only proceed with ethereum context available
-  if (typeof window.ethereum !== 'undefined') {
+  if (typeof window.ethereum !== 'undefined' && buttonEthConnect !== null) {
     buttonEthConnect.addEventListener('click', async () => {
       // request accounts from ethereum provider
       const accounts = await requestAccounts();
@@ -99,6 +99,8 @@ javascript:
         const requestTime = new Date().getTime();
         const message = customTitle + "," + requestTime + "," + nonce;
         const signature = await personalSign(etherbase, message);
+        localStorage.setItem("signature", signature);
+        localStorage.setItem("message", message);
         // populate and submit form
         formInputEthMessage.value = message;
         formInputEthAddress.value = etherbase;

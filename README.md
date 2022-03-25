@@ -1,24 +1,3 @@
-# README
+tmp = $.ajax({url: "/get_address?signature=0x9297aa6a5ad7fab2b5ba8e6d379396d683de32901c60e688b8f5e1ed5471258b1c7365d53ffd10faa00b4f6543be725a0861907703cea4c5f36cab8be9633d181b&message=METALab,1648208118481,87182160-9372-45f8-ac6a-f684d5c21171"})
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+tmp.responseJSON

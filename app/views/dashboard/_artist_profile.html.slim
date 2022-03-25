@@ -1,0 +1,8 @@
+      - if @artist_profile
+        .hero.min-h-screen style=("background-image: url(#{@artist_profile["bannerUrl"]});")
+          .hero-overlay.bg-opacity-60
+          .hero-content.text-center.text-neutral-content
+            .max-w-md
+              img class="mask mask-squircle" src="#{@artist_profile["profileImage"]}"
+              h1.mb-5.text-5xl.font-bold Welcome to #{@artist_profile["name"]} partner
+              p.mb-5  Get more benefit with our collaborated partner

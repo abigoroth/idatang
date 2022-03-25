@@ -19,5 +19,8 @@ module Metalab
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     config.hosts.clear
+    config.public_file_server.headers = {
+      'Cache-Control' => "no-cache"
+    }
   end
 end

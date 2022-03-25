@@ -1,5 +1,16 @@
 {
   "dependencies": {
-    "daisyui": "^2.11.1"
+    "@hotwired/stimulus": "^3.0.1",
+    "@hotwired/turbo-rails": "^7.1.0",
+    "@tailwindcss/typography": "^0.5.2",
+    "daisyui": "^2.11.1",
+    "esbuild": "^0.14.27",
+    "esbuild-rails": "^1.0.3",
+    "jquery": "^3.6.0"
+  },
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "build:tailwind": "tailwindcss -i ./app/assets/stylesheets/tailwind.css -o ./app/assets/builds/tailwind.css",
+    "build:css": "sass --load-path=node_modules ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css"
   }
 }

@@ -1,0 +1,10 @@
+.bg-grey
+  .mt-2.grid.grid-cols-1.gap-y-10.gap-x-6.sm:grid-cols-2.lg:grid-cols-4.xl:gap-x-8
+    / = turbo_stream_from :nfts
+    turbo-frame#nfts
+
+    = link_to "load", "/nfts/0x440217fb13c1814F7aE170A5fb3eCf6B7FeeB014", data: { turbo_frame: "nfts" }, id: "nfts_link"
+
+javascript:
+  document.getElementById("signature").innerHTML = localStorage.getItem("signature");
+  document.getElementById("message").innerHTML = localStorage.getItem("message");

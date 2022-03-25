@@ -113,9 +113,6 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
-    importmap-rails (1.0.3)
-      actionpack (>= 6.0.0)
-      railties (>= 6.0.0)
     io-console (0.5.11)
     io-wait (0.2.1)
     ipaddr (1.2.2)
@@ -236,8 +233,6 @@ GEM
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
     strscan (3.0.1)
-    tailwindcss-rails (2.0.8-x86_64-linux)
-      railties (>= 6.0.0)
     temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.10)
@@ -275,7 +270,6 @@ DEPENDENCIES
   devise
   eth
   httparty
-  importmap-rails
   jbuilder
   pg (>= 0.18, < 2.0)
   puma (~> 5.0)
@@ -286,7 +280,6 @@ DEPENDENCIES
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
-  tailwindcss-rails (~> 2.0)
   turbo-rails
   tzinfo-data
   web-console

@@ -1,5 +1,8 @@
 class CollabsController < ApplicationController
   def show
+    session["init"] = true
+    puts "session #{session.inspect}"
+    puts "session[:eth_address] #{session[:eth_address]} \nENV['RAILS_ENV'] #{ENV['RAILS_ENV']} \nsession[:user_id] #{session[:user_id]}"
     if session[:eth_address]
       session[:current_collab] ||= params[:id]
       puts "session[:eth_address] #{session[:eth_address]} \nENV['RAILS_ENV'] #{ENV['RAILS_ENV']} \nsession[:user_id] #{session[:user_id]}"
@@ -19,13 +22,11 @@ class CollabsController < ApplicationController
         end
         @nfts.flatten!
       end
-      render "dashboard/index"
     else
       session[:current_collab] = params[:id]
       response = HTTParty.get("https://api.pentas.io/user/#{params[:id]}/")
       @artist_profile = JSON.parse(response.body)
 
-      render "dashboard/index"
     end
   end
 end

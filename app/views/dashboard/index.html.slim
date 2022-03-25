@@ -1,57 +1,6 @@
-
-
 .bg-grey
   .mt-2.grid.grid-cols-1.gap-y-10.gap-x-6.sm:grid-cols-2.lg:grid-cols-4.xl:gap-x-8
-    - if session[:eth_address]
-      - if !@nfts.empty?
-        .group.relative
-          .w-full.min-h-80.bg-gray-700.aspect-w-1.aspect-h-1.rounded-md.overflow-hidden.lg:h-80.lg:aspect-none
-            .divide-y.divide-dashed.divide-gray-500
-              div.pt-4.pb-4
-                .text-center TOTAL
-                .text-center.text-5xl.font-extrabold.text-indigo-600 #{@nfts.length}
-              div.pt-4.pb-4
-                .text-center EPIC
-                .text-center.text-5xl.font-extrabold.text-indigo-600 #{@nfts.select{|x| x["collection"] =~ /epic/}.length }
-              div.pt-4.pb-4
-                .text-center SUPER RARE
-                .text-center.text-5xl.font-extrabold.text-indigo-600 #{@nfts.select{|x| x["collection"] =~ /SuperRare/}.length }
-        - @nfts.each do |nft|
-          .group.relative
-            .w-full.min-h-80.bg-gray-200.aspect-w-1.aspect-h-1.rounded-md.overflow-hidden.lg:h-80.lg:aspect-none
-              - if nft["mimeType"] =~ /video/
-                video class="w-full h-full object-center object-cover lg:w-full lg:h-full" autoplay="true" muted="true" loop="true"
-                  source src="#{nft["contentUrl"]}" type="video/mp4" autoplay="true"
-                  | Your browser does not support the video tag.
-              - else
-                img.w-full.h-full.object-center.object-cover.lg:w-full.lg:h-full alt="#{nft["name"]}" src="#{nft["contentUrl"]}" /
-            .mt-4.flex.justify-between
-              div
-                h3.text-sm.text-white
-                  a href="#" style="pointer-events: none;"
-                    span.absolute.inset-0 aria-hidden="true"
-                    | #{nft["name"]}
-                p.mt-1.text-sm.text-white-500 #{nft["collection"]}
-              p.text-sm.font-medium.white-900 #{nft["priceUsd"]}
-      - else
-        h1 There is no NFT for this collaborator
-    - else
-      - if @artist_profile
-        .hero.min-h-screen style=("background-image: url(#{@artist_profile["bannerUrl"]});")
-          .hero-overlay.bg-opacity-60
-          .hero-content.text-center.text-neutral-content
-            .max-w-md
-              img class="mask mask-squircle" src="#{@artist_profile["profileImage"]}"
-              h1.mb-5.text-5xl.font-bold Welcome to #{@artist_profile["name"]} partner
-              p.mb-5 Get more benefit with our collaborated partner
-      - else
-        | Select collaborator
-        ul.divide-y.divide-gray-200 role="list"
-          li.py-4
-            = link_to "Bad Ape", collab_path("0xFCD1077415bfe07A9750fc95F821731b96A4d483")
-          li.py-4
-            = link_to "Rich Cats Nation", collab_path("0x4c43E3AA5BC37783b73376f14CF749cB762e09E1")
+    / = turbo_stream_from :nfts
+    turbo-frame#nfts
 
-
-
-
+    = link_to "load", "/nfts/0x440217fb13c1814F7aE170A5fb3eCf6B7FeeB014", data: { turbo_frame: "nfts" }, id: "nfts_link"

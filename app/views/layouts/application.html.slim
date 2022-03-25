@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html class="dark:bg-gray-800" data-theme="dark">
-  <head>
-    <title>Metalab NFT</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+html class="dark:bg-gray-800" data-theme="dark"
+  head
+    title Metalab NFT
+    meta name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload"
-
+    = stylesheet_link_tag 'tailwind', 'application', "data-turbo-track": "reload"
+    = javascript_include_tag 'application', "data-turbo-track": "reload", defer: true
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
-    = javascript_importmap_tags
+
     javascript:
       // On page load or when changing themes, best to add inline in `head` to avoid FOUC
       if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -16,7 +16,6 @@
       } else {
           document.documentElement.classList.remove('dark')
       }
-  </head>
 
   body.h-full
     .min-h-full
@@ -28,10 +27,21 @@
         / </button>
 
       main class="container mx-auto mt-3 px-5"
+        - if current_user
+          = current_user.email
+        - else
+          = link_to "login", new_user_session_path
         .text-lg
           span.font-bold META
           span Lab
+
+        .text-lg Signature
+        #signature
+        .text-lg message
+        #message
         = yield
+        turbo-frame#address
+        = link_to "GET Address", '#', class: "btn", data: { turbo_frame: "address" }
 
         / <div class="bg-white dark:bg-gray-800">
         / <h1 class="text-gray-900 dark:text-white">Dark mode</h1>
@@ -41,5 +51,3 @@
         / </div>
 
   / = render 'darkmode'
-
-</html>

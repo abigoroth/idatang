@@ -16,9 +16,13 @@ class Api::V1::UsersController < ApplicationController
       response = [eth_nonce: user.eth_nonce]
     else
       address = params[:id].downcase
-      user = ::User.new(eth_address: address, email: "#{address}@metalab.my", eth_nonce: 1234)
+      user = ::User.new(
+        eth_address: address,
+        email: "#{address}@metalab.my",
+        eth_nonce: 10.times.map { rand(10) }.join
+        )
       user.save
-      response = [eth_nonce: 1234]
+      response = [eth_nonce: user.nonce]
     end
     # return response if found or nil in case of mismatch
     render json: response

@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_forgery_protection
+  # protect_from_forgery with: CustomStrategy
   def create
     # users are indexed by eth address here
     user = User.find_by(eth_address: params[:eth_address])
@@ -37,6 +39,9 @@ class SessionsController < ApplicationController
               user.eth_nonce = SecureRandom.uuid
               user.save
               # send the logged in user back home
+              puts "params[:eth_address] #{params[:eth_address]} \nsession[:eth_address] #{session[:eth_address]}"
+              puts "session[:current_collab] #{session[:current_collab]}"
+              puts "params[:authenticity_token] #{params[:authenticity_token]}"
               if session[:current_collab]
                 redirect_to collab_path(session[:current_collab])
               else
@@ -49,8 +54,16 @@ class SessionsController < ApplicationController
     end
   end
 
+  def index
+    render plain: params
+  end
+
   def destroy
     session.delete(:eth_address)
+    if session[:current_collab]
     redirect_to collab_path(session[:current_collab])
+    else
+      redirect_to "/"
+    end
   end
 end
